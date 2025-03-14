@@ -1,0 +1,169 @@
+@page "/map/editor"
+@using System.Diagnostics
+@inject IJSRuntime JsRuntime
+
+<h3>Map Editor</h3>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Map Settings</h5>
+    </div>
+    <div class="card-body">
+        <div class="form-group mb-3">
+            <label for="map-size" class="form-label">Select Map Size:</label>
+            <select id="map-size" class="form-select" @bind="_selectedSize">
+                <option value="">Please choose a map size</option>
+                <option value="10">10×10</option>
+                <option value="15">15×15</option>
+                <option value="20">20×20</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" @onclick="UpdateMapButton">Update Map</button>
+    </div>
+</div>
+
+@if (MapSize.HasValue && mapTotal != null)
+{
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            Map Information
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Width:</strong> @mapTotal.MapWidth
+                </div>
+                <div class="col-md-4">
+                    <strong>Height:</strong> @mapTotal.MapHeight
+                </div>
+                <div class="col-md-4">
+                    <strong>Tiles:</strong> @(mapTotal.Tiles?.Count ?? 0)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5>Map Preview</h5>
+        </div>
+        <div class="card-body">
+            <div class="map-container">
+                @for (int y = 0; y < mapTotal.MapHeight; y++)
+                {
+                    <div class="map-row">
+                        @for (int x = 0; x < mapTotal.MapWidth; x++)
+                        {
+                            var tile = mapTotal.Tiles.FirstOrDefault(t => t.PosX == x && t.PosY == y);
+                            <div class="map-tile @tile.Type" title="X: @x, Y: @y, Type: @tile.Type">
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .map-container {
+            display: flex;
+            flex-direction: column;
+            width: fit-content;
+            border: 1px solid #ddd;
+            background-color: #f8f9fa;
+            padding: 5px;
+        }
+        
+        .map-row {
+            display: flex;
+        }
+        
+        .map-tile {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            background-color: #eee;
+            margin: 1px;
+            cursor: pointer;
+        }
+        
+        .map-tile.void {
+            background-color: #f0f0f0;
+        }
+    </style>
+}
+
+@code {
+    private int? MapSize { get; set; }
+    private MapTotal mapTotal;
+    private string _selectedSize = "";
+    
+    protected override void OnInitialized()
+    {
+        Debug.WriteLine("Component initialized");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime.InvokeVoidAsync("console.log", "EditorPageMap component rendered");
+        }
+    }
+    
+    private void UpdateMapButton()
+    {
+        Debug.WriteLine($"Button clicked, selected size: {_selectedSize}");
+        
+        if (int.TryParse(_selectedSize, out int size))
+        {
+            MapSize = size;
+            mapTotal = new MapTotal(size, size);
+            StateHasChanged();
+            Debug.WriteLine($"Map updated to size: {size}");
+        }
+    }
+
+    public class Tile
+    {
+        public int PosX { get; set; }
+        public int PosY { get; set; }
+        public string Type { get; set; }
+
+        public Tile(int PosX, int PosY, string Type)
+        {
+            this.PosX = PosX;
+            this.PosY = PosY;
+            this.Type = Type;
+        }
+    }
+
+    public class MapTotal
+    {
+        public int MapWidth { get; set; }
+        public int MapHeight { get; set; }
+        public List<Tile> Tiles { get; set; }
+
+        public MapTotal(int MapWidth, int MapHeight)
+        {
+            this.MapWidth = MapWidth;
+            this.MapHeight = MapHeight;
+            this.Tiles = this.Create_tiling();
+        }
+
+        private List<Tile> Create_tiling()
+        {
+            List<Tile> listTiles = new List<Tile>();
+            
+            for (int i = 0; i < this.MapWidth; i++) // width
+            {
+                for (int j = 0; j < this.MapHeight; j++) // height
+                {
+                    Tile tile = new Tile(i, j, "void");
+                    listTiles.Add(tile);
+                }
+            }
+            return listTiles;
+        }
+    }
+}

@@ -5,7 +5,7 @@
 @inject IJSRuntime JS
 
 <h3>Map</h3>
-@if (mapTotal != null)
+@if (mapTotal?.Tiles?.Count > 0)
 {
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
@@ -96,7 +96,7 @@ else
         }
     }
 
-    public class MapCase
+    public class Tile
     {
         [JsonPropertyName("x")]
         public int PosX { get; set; }
@@ -117,7 +117,7 @@ else
         public int MapHeight { get; set; }
 
         [JsonPropertyName("tiles")]
-        public List<MapCase> Tiles { get; set; }
+        public List<Tile> Tiles { get; set; }
     }
 
     public static class JsonParser

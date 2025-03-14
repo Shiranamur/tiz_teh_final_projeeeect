@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tiz_teh_final_csharp_project", "tiz_teh_final_csharp_project\tiz_teh_final_csharp_project.csproj", "{0E2B07A0-E8BF-471B-AF7D-1403EEC9E6E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRobotStrike", "WebRobotStrike\WebRobotStrike.csproj", "{A763580A-D593-42C2-8782-BD4EF73D8CC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0E2B07A0-E8BF-471B-AF7D-1403EEC9E6E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E2B07A0-E8BF-471B-AF7D-1403EEC9E6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E2B07A0-E8BF-471B-AF7D-1403EEC9E6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E2B07A0-E8BF-471B-AF7D-1403EEC9E6E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A763580A-D593-42C2-8782-BD4EF73D8CC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A763580A-D593-42C2-8782-BD4EF73D8CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A763580A-D593-42C2-8782-BD4EF73D8CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A763580A-D593-42C2-8782-BD4EF73D8CC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
